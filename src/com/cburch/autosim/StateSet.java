@@ -9,7 +9,7 @@ import java.util.LinkedList;
 
 class StateSet {
     private Automaton automaton;
-    private LinkedList states = new LinkedList();
+    private LinkedList<State> states = new LinkedList<State>();
 
     public StateSet(Automaton automaton) {
         this.automaton = automaton;
@@ -18,7 +18,7 @@ class StateSet {
     public int size() {
         return states.size();
     }
-    public Iterator iterator() {
+    public Iterator<State> iterator() {
         return states.iterator();
     }
     public boolean contains(State what) {
@@ -33,24 +33,23 @@ class StateSet {
         }
     }
     public void expose(Graphics g) {
-        for(Iterator it = iterator(); it.hasNext(); ) {
-            State state = (State) it.next();
+        for(State state: states) {
             state.expose(g);
         }
     }
     public Object[] advance(char what) {
         StateSet ret = new StateSet(automaton);
         StateSet used = new StateSet(automaton);
-        LinkedList traversed = new LinkedList();
+        LinkedList<Transition> traversed = new LinkedList<Transition>();
 
         if(what == Alphabet.EPSILON) {
-            for(Iterator it = iterator(); it.hasNext(); ) {
-                ret.add((State) it.next());
+            for(State state : states) {
+                ret.add(state);
             }
         } else {
             // find transitions for selected character
-            for(Iterator it = automaton.getTransitions(); it.hasNext(); ) {
-                Transition transition = (Transition) it.next();
+            for(Iterator<Transition> it = automaton.getTransitions(); it.hasNext(); ) {
+                Transition transition = it.next();
                 if(transition.transitsOn(what)
                         && contains(transition.getSource())) {
                     ret.add(transition.getDest());
@@ -60,8 +59,8 @@ class StateSet {
             }
 
             // handle ELSE transitions
-            for(Iterator it = automaton.getTransitions(); it.hasNext(); ) {
-                Transition transition = (Transition) it.next();
+            for(Iterator<Transition> it = automaton.getTransitions(); it.hasNext(); ) {
+                Transition transition = it.next();
                 if(transition.transitsOn(Alphabet.ELSE)
                         && contains(transition.getSource())
                         && !used.contains(transition.getSource())) {
@@ -75,8 +74,8 @@ class StateSet {
         boolean changed = true;
         while(changed) {
             changed = false;
-            for(Iterator it = automaton.getTransitions(); it.hasNext(); ) {
-                Transition transition = (Transition) it.next();
+            for(Iterator<Transition> it = automaton.getTransitions(); it.hasNext(); ) {
+                Transition transition = it.next();
                 if(transition.transitsOn(Alphabet.EPSILON)
                         && ret.contains(transition.getSource())) {
                     if(!ret.contains(transition.getDest())) {
