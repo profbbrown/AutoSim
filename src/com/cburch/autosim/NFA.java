@@ -3,7 +3,6 @@
 
 package com.cburch.autosim;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 
 class NFA extends Automaton {
