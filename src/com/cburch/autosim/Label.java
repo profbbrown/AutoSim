@@ -31,7 +31,7 @@ import javax.swing.ListSelectionModel;
 class Label {
     private LabelOwner owner;
     private String text = "";
-    private Font font = new Font("SansSerif", 0, 12);
+    private Font font = new Font("Calibri", 0, 18);
 
     public Label(LabelOwner owner) {
         this.owner = owner;
