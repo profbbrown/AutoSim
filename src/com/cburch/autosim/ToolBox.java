@@ -44,7 +44,9 @@ class ToolBox extends JToolBar {
         public Tool getTool() {
             return tool;
         }
-        public void setTool(Tool tool) {
+        
+        @SuppressWarnings("unused")
+		public void setTool(Tool tool) {
             this.tool = tool;
         }
 
