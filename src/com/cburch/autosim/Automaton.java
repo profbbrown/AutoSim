@@ -64,9 +64,9 @@ abstract class Automaton {
 
     private TapeListener tape_listener;
 
-    private LinkedList states = new LinkedList();
-    private LinkedList transitions = new LinkedList();
-    private LinkedList components = new LinkedList();
+    private LinkedList<State> states = new LinkedList<State>();
+    private LinkedList<Transition> transitions = new LinkedList<Transition>();
+    private LinkedList<AutomatonComponent> components = new LinkedList<AutomatonComponent>();
     private Alphabet alphabet = new Alphabet(Alphabet.alphabet + Alphabet.ELSE);
 
     private StateSet current = new StateSet(this);
@@ -74,7 +74,7 @@ abstract class Automaton {
     private Canvas canvas = null;
     private Rectangle bounding = null;
 
-    private LinkedList history = new LinkedList();
+    private LinkedList<Snapshot> history = new LinkedList<Snapshot>();
         // for storing StateSets previously stepped through
 
     public Automaton() {
@@ -92,30 +92,29 @@ abstract class Automaton {
     //
     public Alphabet getAlphabet() { return alphabet; }
     public Canvas getCanvas() { return canvas; }
-    public List getHistory() { return history; }
+    public List<Snapshot> getHistory() { return history; }
 
-    public Iterator getStates() {
+    public Iterator<State> getStates() {
         return states.iterator();
     }
     public StateSet getInitialStates() {
         StateSet ret = new StateSet(this);
-        for(Iterator it = getStates(); it.hasNext(); ) {
-            State state = (State) it.next();
+        for(State state : states) {
             if(state.isInitial()) ret.add(state);
         }
         return ret;
     }
-    public Iterator getTransitions() {
+    public Iterator<Transition> getTransitions() {
         return transitions.iterator();
     }
-    public Iterator getComponents() {
+    public Iterator<AutomatonComponent> getComponents() {
         return components.iterator();
     }
-    public Iterator getAllComponents() {
+    public Iterator<AutomatonComponent> getAllComponents() {
         return Iterators.join(getTransitions(),
             Iterators.join(getStates(), getComponents()));
     }
-    public Iterator getAllComponentsReverse() {
+    public Iterator<AutomatonComponent> getAllComponentsReverse() {
         return Iterators.join(Iterators.reverse(components),
             Iterators.join(Iterators.reverse(states),
                 Iterators.reverse(transitions)));
@@ -133,8 +132,7 @@ abstract class Automaton {
     }
 
     public void exposeConnections(Graphics g, State what) {
-        for(Iterator it = getTransitions(); it.hasNext(); ) {
-            Transition transition = (Transition) it.next();
+    	for(Transition transition : transitions) {
             if(transition.getSource() == what
                     || transition.getDest() == what) {
                 transition.expose(g);
@@ -167,15 +165,13 @@ abstract class Automaton {
         Graphics g = null;
         if(canvas != null) g = canvas.getGraphics();
 
-        LinkedList to_remove = new LinkedList();
-        for(Iterator it = getTransitions(); it.hasNext(); ) {
-            Transition transition = (Transition) it.next();
+        LinkedList<Transition> to_remove = new LinkedList<Transition>();
+        for(Transition transition : transitions ) {
             if(transition.getSource() == what || transition.getDest() == what) {
                 to_remove.add(transition);
             }
         }
-        for(Iterator it = to_remove.iterator(); it.hasNext(); ) {
-            Transition transition = (Transition) it.next();
+        for(Transition transition : to_remove ) {
             if(g != null) transition.expose(g);
             transitions.remove(transition);
         }
@@ -253,7 +249,7 @@ abstract class Automaton {
         current_draw.expose(g);
         old_draw.expose(g);
     }
-    public Animation setCurrent(StateSet data, LinkedList traversed) {
+    public Animation setCurrent(StateSet data, LinkedList<Transition> traversed) {
         if(data == null) data = new StateSet(this);
         StateSet old_draw = current_draw;
         current = data;
@@ -267,16 +263,15 @@ abstract class Automaton {
     }
     private class AnimationThread extends Animation {
         private Graphics g;
-        private LinkedList traversed;
+        private LinkedList<Transition> traversed;
         private StateSet old;
 
-        public AnimationThread(Graphics g, LinkedList traversed) {
+        public AnimationThread(Graphics g, LinkedList<Transition> traversed) {
             this.g = g;
             this.traversed = traversed;
             this.old = current;
 
-            for(Iterator it = traversed.iterator(); it.hasNext(); ) {
-                Transition trans = (Transition) it.next();
+            for(Transition trans : traversed) {
                 trans.setCursorProgress(0.0);
                 trans.setCursorExists(true);
             }
@@ -285,8 +280,7 @@ abstract class Automaton {
             if(traversed.size() == 0 || frames >= NUM_FRAMES
                     || current != old) {
                 canvas.setSuppressRepaint(true);
-                for(Iterator it = traversed.iterator(); it.hasNext(); ) {
-                    Transition trans = (Transition) it.next();
+                for(Transition trans : traversed) {
                     trans.setCursorExists(false);
                 }
 
@@ -299,8 +293,7 @@ abstract class Automaton {
                 return false;
             } else {
                 canvas.setSuppressRepaint(true);
-                for(Iterator it = traversed.iterator(); it.hasNext(); ) {
-                    Transition trans = (Transition) it.next();
+                for(Transition trans : traversed) {
                     trans.setCursorProgress((double) frames / NUM_FRAMES);
                 }
                 canvas.setSuppressRepaint(false);
@@ -313,21 +306,21 @@ abstract class Automaton {
     // GUI METHODS
     //
     public AutomatonComponent find(int x, int y, Graphics g) {
-        for(Iterator it = getAllComponentsReverse(); it.hasNext(); ) {
+        for(Iterator<AutomatonComponent> it = getAllComponentsReverse(); it.hasNext(); ) {
             AutomatonComponent comp = (AutomatonComponent) it.next();
             if(comp.isIn(x, y, g)) return comp;
         }
         return null;
     }
     public State findState(int x, int y, Graphics g) {
-        for(Iterator it = Iterators.reverse(states); it.hasNext(); ) {
+        for(Iterator<State> it = Iterators.reverse(states); it.hasNext(); ) {
             State state = (State) it.next();
             if(state.isIn(x, y, g)) return state;
         }
         return null;
     }
     public void draw(Graphics g) {
-        for(Iterator it = getAllComponents(); it.hasNext(); ) {
+        for(Iterator<AutomatonComponent> it = getAllComponents(); it.hasNext(); ) {
             ((AutomatonComponent) it.next()).draw(g);
         }
     }
@@ -352,7 +345,7 @@ abstract class Automaton {
     private void computeBoundingBox(Graphics g) {
         bounding = null;
         Rectangle box = new Rectangle();
-        for(Iterator it = getAllComponents(); it.hasNext(); ) {
+        for(Iterator<AutomatonComponent> it = getAllComponents(); it.hasNext(); ) {
             AutomatonComponent comp = (AutomatonComponent) it.next();
             comp.getBounds(box, g);
             if(bounding == null) {
@@ -383,15 +376,13 @@ abstract class Automaton {
         fout.print("alphabet ");
         fout.printlnGroup(alphabet.toString());
 
-        for(Iterator it = getStates(); it.hasNext(); ) {
-            State state = (State) it.next();
+        for(State state : states) {
             fout.print("state "); fout.beginGroup(); fout.println();
             state.print(fout);
             fout.endGroup(); fout.println();
         }
 
-        for(Iterator it = getTransitions(); it.hasNext(); ) {
-            Transition transition = (Transition) it.next();
+        for(Transition transition : transitions) {
             int i = states.indexOf(transition.getSource());
             int j = states.indexOf(transition.getDest());
             fout.print("edge " + i + " " + j + " ");
@@ -400,8 +391,7 @@ abstract class Automaton {
             fout.endGroup(); fout.println();
         }
 
-        for(Iterator it = getComponents(); it.hasNext(); ) {
-            AutomatonComponent comp = (AutomatonComponent) it.next();
+        for(AutomatonComponent comp : components) {
             if(comp instanceof AutomatonLabel) {
                 fout.print("label "); fout.beginGroup(); fout.println();
                 comp.print(fout);
