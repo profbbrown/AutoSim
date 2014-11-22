@@ -22,8 +22,7 @@ class DFA extends Automaton {
         public boolean canBeTransit(char what) {
             if(what == Alphabet.EPSILON) return false;
 
-            for(Iterator it = getTransitions(); it.hasNext(); ) {
-                Transition transition = (Transition) it.next();
+            for(Transition transition : transitions) {
                 if(this != transition
                         && transition.getSource() == this.getSource()
                         && transition.transitsOn(what)) {
