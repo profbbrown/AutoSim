@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -81,6 +82,12 @@ class Canvas extends JPanel implements Printable, Scrollable {
     //
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        
+        Graphics2D g2 = (Graphics2D)g;
+        RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
+             RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setRenderingHints(rh);
+        
         dirty = false;
         automaton.draw(g);
         if(cur_tool != null) cur_tool.draw(g);
