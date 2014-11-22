@@ -22,7 +22,6 @@ import javax.swing.JToolBar;
 class ToolBox extends JToolBar {
     private static abstract class ToolButton extends JButton
             implements ActionListener, MouseListener, Icon {
-        private Color std_background;
         private ToolBox toolbox;
         private Tool tool;
         private JPopupMenu popup = null;
@@ -32,16 +31,11 @@ class ToolBox extends JToolBar {
 
             this.toolbox = toolbox;
             this.tool = tool;
-            std_background = getBackground();
 
             setIcon(this);
             addActionListener(this);
             addMouseListener(this);
         }
-        /*
- 		public void setSelected(boolean what) {
-            setBackground(what ? Color.gray : std_background);
-        }*/
 
         protected void setPopupMenu(JPopupMenu popup) {
             this.popup = popup;
