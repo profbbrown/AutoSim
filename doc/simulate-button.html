@@ -1,0 +1,59 @@
+<html><body>
+
+<h1>The simulation buttons</h1>
+
+<p>Simulating a machine works differently, depending on whether you have
+drawn an automaton (deterministic, nondeterministic, or deterministic
+push-down) or a Turing machine.</p>
+
+<h3>On automata</h3>
+
+<p>For an automaton, the toolbar contains a single Play button,
+represented by a green triangle in the toolbar.
+When you click the Play button,
+the automaton resets its current state to the initial state,
+displayed in green.
+As you type letters,
+the highlighted states will update to reflect the state transitions of
+the automaton, and the tape at the window's
+bottom will log the letters you type. (With the deterministic pushdown
+automaton, the tape will reflect the contents of the stack instead.)</p>
+
+<p>If you want to simulate a different string entirely,
+click the Play button again.
+The tape will clear, and the automaton will reset to its
+initial state.</p>
+
+<p>The backspace key will work as an ``undo:'' it restores
+the machine to its state before the last character typed.
+You can go back several steps.</p>
+
+<h3>On Turing machines</h3>
+
+<p>Simulating a Turing machine is slightly more complex.
+Before you use any of the simulation buttons, first type the entire
+string you want it to read onto the tape.
+The five simulation buttons work as follows.
+<ul>
+
+<li>The Play button (pictured as a green triangle) will put the Turing
+machine into autopilot, stepping through repeatedly until it has gone
+off the state machine.</p>
+
+<li>The Pause button (pictured as two vertical red bars) will halt the
+Turing machine simulation.</p>
+
+<li>The Step button (pictured as a rightward green triangle adjoining a
+vertical red bar) will step the Turing machine forward one step
+only.</p>
+
+<li>The Rewind button (pictured as a leftward green triangle
+adjoining a vertical red bar) will undo the most recent step performed
+by the Turing machine.</p>
+
+<li>The Reset button (pictured as a red circular arrow) will reset the
+tape and the machine's state.</p>
+
+</ul></p>
+
+</body></html>
