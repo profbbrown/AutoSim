@@ -42,8 +42,7 @@ class NFA extends Automaton {
         return new NFAState();
     }
     public Transition createTransition(State src, State dst) {
-        for(Iterator it = getTransitions(); it.hasNext(); ) {
-            Transition transition = (Transition) it.next();
+        for(Transition transition : transitions) {
             if(transition.getSource() == src
                     && transition.getDest() == dst) {
                 return null;

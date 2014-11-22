@@ -65,7 +65,7 @@ abstract class Automaton {
     private TapeListener tape_listener;
 
     private LinkedList<State> states = new LinkedList<State>();
-    private LinkedList<Transition> transitions = new LinkedList<Transition>();
+    protected LinkedList<Transition> transitions = new LinkedList<Transition>();
     private LinkedList<AutomatonComponent> components = new LinkedList<AutomatonComponent>();
     private Alphabet alphabet = new Alphabet(Alphabet.alphabet + Alphabet.ELSE);
 
