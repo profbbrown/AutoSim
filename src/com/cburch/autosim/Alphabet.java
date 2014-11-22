@@ -4,15 +4,15 @@
 package com.cburch.autosim;
 
 class Alphabet {
-    public static final char EPSILON = '@';
+    public static final char EPSILON = '\u0190';
     public static final char ELSE    = '*';
     public static final char BLANK   = '_';
+    public static final String alphabet = "abcdijklmnowxyz0123456789";
 
     private String data = "";
 
     public static String toString(char what) {
         switch(what) {
-        case EPSILON:   return "eps";
         case ELSE:      return "else";
         case BLANK:     return "blank";
         default:        return "" + what;

@@ -67,7 +67,7 @@ abstract class Automaton {
     private LinkedList states = new LinkedList();
     private LinkedList transitions = new LinkedList();
     private LinkedList components = new LinkedList();
-    private Alphabet alphabet = new Alphabet("abcd" + Alphabet.ELSE);
+    private Alphabet alphabet = new Alphabet(Alphabet.alphabet + Alphabet.ELSE);
 
     private StateSet current = new StateSet(this);
     private StateSet current_draw = current;
