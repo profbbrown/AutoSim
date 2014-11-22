@@ -38,9 +38,10 @@ class ToolBox extends JToolBar {
             addActionListener(this);
             addMouseListener(this);
         }
-        public void setSelected(boolean what) {
+        /*
+ 		public void setSelected(boolean what) {
             setBackground(what ? Color.gray : std_background);
-        }
+        }*/
 
         protected void setPopupMenu(JPopupMenu popup) {
             this.popup = popup;
