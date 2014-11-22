@@ -3,8 +3,6 @@
 
 package com.cburch.autosim;
 
-import java.util.Iterator;
-
 class DFA extends Automaton {
     class DFAState extends State {
         public DFAState() {
@@ -37,8 +35,7 @@ class DFA extends Automaton {
         return new DFA.DFAState();
     }
     public Transition createTransition(State src, State dst) {
-        for(Iterator it = getTransitions(); it.hasNext(); ) {
-            Transition transition = (Transition) it.next();
+        for(Transition transition : transitions) {
             if(transition.getSource() == src
                     && transition.getDest() == dst) {
                 return null;
