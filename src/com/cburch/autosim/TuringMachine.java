@@ -259,7 +259,7 @@ class TuringMachine extends DFA {
 
         Tape tape = getCanvas().getTape();
         char c = tape.read(tape.getHeadPosition());
-        for(Iterator it = getTransitions(); it.hasNext(); ) {
+        for(Iterator<Transition> it = getTransitions(); it.hasNext(); ) {
             TMTransition trans = (TMTransition) it.next();
             if(trans.getSource() == current) {
                 if(trans.transitsOn(c)) {
