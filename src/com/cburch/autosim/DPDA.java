@@ -260,9 +260,9 @@ class DPDA extends Automaton {
 
     public void transition(Tape tape, char what) {
         // determine current situation
-        Iterator statesIter = getCurrent().iterator();
+        Iterator<State> statesIter = getCurrent().iterator();
         if(!statesIter.hasNext()) return;
-        State state = (State) statesIter.next();
+        State state = statesIter.next();
         int old_head_pos = tape.getHeadPosition();
         char stack_top = tape.read(old_head_pos);
         LinkedList used = new LinkedList();
