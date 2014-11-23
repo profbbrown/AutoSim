@@ -30,35 +30,35 @@ class Tape extends JPanel {
     private static final int BLANKS_SHOW =  2; // extra blanks on each side
 
     private static class Contents {
-        ArrayList positives = new ArrayList();
-        ArrayList negatives = new ArrayList();
+        ArrayList<Character> positives = new ArrayList<Character>();
+        ArrayList<Character> negatives = new ArrayList<Character>();
         Character blank = new Character(Alphabet.BLANK);
 
         public Contents() { }
 
         public char get(int position) {
-            ArrayList which = position < 0 ? negatives : positives;
+            ArrayList<Character> which = position < 0 ? negatives : positives;
             if(position < 0) position = -position;
             if(position >= which.size()) return Alphabet.BLANK;
-            Character ret = (Character) which.get(position);
+            Character ret = which.get(position);
             return ret == null ? Alphabet.BLANK : ret.charValue();
         }
         public void set(int position, char value) {
-            ArrayList which = position < 0 ? negatives : positives;
+            ArrayList<Character> which = position < 0 ? negatives : positives;
             if(position < 0) position = -position;
             while(which.size() <= position) which.add(blank);
-            which.set(position, new Character(value));
+            which.set(position, value);
         }
         public int getMaximumPosition() {
             for(int i = positives.size() - 1; i >= 0; i--) {
-                Character val = (Character) positives.get(i);
+                Character val = positives.get(i);
                 if(val != null && !val.equals(blank)) return i;
             }
             return 0;
         }
         public int getMinimumPosition() {
             for(int i = negatives.size() - 1; i >= 0; i--) {
-                Character val = (Character) negatives.get(i);
+                Character val = negatives.get(i);
                 if(val != null && !val.equals(blank)) return -i;
             }
             return 0;
@@ -87,8 +87,8 @@ class Tape extends JPanel {
             public void mouseReleased(MouseEvent e) {
                 int loc = representation.locatePosition(e.getX(), e.getY());
                 if(loc == pressed_loc) {
-                    for(Iterator it = listeners.iterator(); it.hasNext(); ) {
-                        TapeListener listener = (TapeListener) it.next();
+                    for(Iterator<TapeListener> it = listeners.iterator(); it.hasNext(); ) {
+                        TapeListener listener = it.next();
                         listener.positionClicked(Tape.this, loc);
                     }
                 }
@@ -99,8 +99,7 @@ class Tape extends JPanel {
             public void keyReleased(KeyEvent e) { }
             public void keyTyped(KeyEvent e) {
                 char c = e.getKeyChar();
-                for(Iterator it = listeners.iterator(); it.hasNext(); ) {
-                    TapeListener listener = (TapeListener) it.next();
+                for(TapeListener listener : listeners) {
                     listener.keyTyped(Tape.this, c);
                 }
             }
@@ -265,7 +264,7 @@ class Tape extends JPanel {
     }
 
     // private variables
-    private LinkedList listeners = new LinkedList();
+    private LinkedList<TapeListener> listeners = new LinkedList<TapeListener>();
     private Contents contents = new Contents();
     private int cursor = 0;
     private int head = 0;
@@ -295,7 +294,7 @@ class Tape extends JPanel {
         listeners.remove(listener);
     }
     public void completeReset() {
-        listeners = new LinkedList();
+        listeners = new LinkedList<TapeListener>();
         show_head = false;
         extends_left = false;
         cursor = 0;
