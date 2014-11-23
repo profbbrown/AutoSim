@@ -5,6 +5,7 @@ package com.cburch.autosim;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -185,7 +186,9 @@ abstract class Transition extends AutomatonComponent
             menu.add(item);
         }
 
-        menu.addSeparator();
+        menu.setLayout(new GridLayout(5,6));
+        
+        //menu.addSeparator();
         super.createMenu(menu);
     }
 
