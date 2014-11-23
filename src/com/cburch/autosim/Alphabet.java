@@ -7,7 +7,7 @@ class Alphabet {
     public static final char EPSILON = '\u0190';
     public static final char ELSE    = '*';
     public static final char BLANK   = '_';
-    public static final String alphabet = "abcdijklmnowxyz0123456789";
+    public static final String alphabet = "abcdefghijklmnopqrstuvwxyz";
 
     private String data = "";
 
