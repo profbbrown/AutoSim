@@ -250,9 +250,9 @@ class TuringMachine extends DFA {
     private Animation advance() {
         getHistory().add(new MySnapshot());
 
-        Iterator stateIter = getCurrent().iterator();
+        Iterator<State> stateIter = getCurrent().iterator();
         if(!stateIter.hasNext()) return Animation.getNull();
-        State current = (State) stateIter.next();
+        State current = stateIter.next();
         State next = null;
         TMTransition used = null;
         Animation head_move = null;
