@@ -18,7 +18,7 @@ abstract class AutomatonComponent {
     private class DeleteItem extends JMenuItem 
             implements ActionListener {
         public DeleteItem() {
-            super("Delete");
+            super("\u2716 Delete");   // \u232b is the kbd delete symbol
             addActionListener(this);
         }
         public void actionPerformed(ActionEvent evt) {
